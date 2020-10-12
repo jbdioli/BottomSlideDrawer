@@ -6,7 +6,19 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  isMoreInfo = false;
 
   constructor() {}
+
+  onClick() {
+    this.isMoreInfo = true;
+  }
+
+  isCloseTrigger(value: {isClose: boolean}) {
+
+    if (value.isClose) {
+      this.isMoreInfo = false;
+    }
+  }
 
 }

@@ -1,0 +1,21 @@
+:host {
+    position: absolute;
+ //   top: 90%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+
+}
+
+ion-card {
+    box-shadow: 0px -8px 34px 0px #2a2d32;
+    background-color: #5b7082;
+    ion-card-title {
+        ion-toolbar {
+            --background: transparent;
+        }
+    }
+    ion-card-content {
+        color: white;
+    }
+}
