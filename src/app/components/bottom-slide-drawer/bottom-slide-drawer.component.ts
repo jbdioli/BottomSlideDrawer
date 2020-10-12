@@ -119,8 +119,6 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
     });
 
 
-
-    // console.log('elmentRef ', this.ionCard);
     // this.observer = fromEvent(this.elmentRef.nativeElement, 'transitionstart').subscribe((event) => {
     //   console.log('Started transition:', event);
     // });
