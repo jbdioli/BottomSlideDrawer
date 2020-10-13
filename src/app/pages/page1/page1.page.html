@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Bottom Slider Drawer
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-button style="color: #154ab5; --border-color: #154ab5" (click)="onClick()" expand="block" fill="outline">
+    <ion-icon style="color: #154ab5; padding-right: 10px;" name="information-circle-outline" slot="icon-only"></ion-icon>
+    Show Info
+  </ion-button>
+
+</ion-content>
+
+<app-bottom-slide-drawer (isCloseEvent)="isCloseTrigger($event)" [isShow]='isShow' *ngIf="isMoreInfo"></app-bottom-slide-drawer>

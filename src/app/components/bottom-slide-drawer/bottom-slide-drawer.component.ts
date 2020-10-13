@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, Renderer2} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2} from '@angular/core';
 import { Gesture, GestureConfig, GestureController} from '@ionic/angular';
 import { fromEvent, merge, Subscription } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
@@ -12,6 +12,7 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
 
   observer: Subscription;
 
+  @Input() isShow: boolean;
   @Output() isCloseEvent = new EventEmitter<{ isClose: boolean}>();
 
   handleHeight = 0.84;
@@ -33,19 +34,25 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
     this.drawerHeight = this.windowHeight * this.handleHeight;
     this.className = this.elmentRef.nativeElement.childNodes[0];
 
-    console.log('elmentRef', this.elmentRef);
-    console.log('class name', this.className);
+    this.renderer.setStyle(this.elmentRef.nativeElement, 'top', this.drawerHeight + 'px');
+    this.renderer.setStyle(this.className, 'min-height', this.windowHeight + 'px');
+
+    // console.log('elmentRef', this.elmentRef);
+    // console.log('class name', this.className);
   }
 
   async ngAfterViewInit() {
 
+    if (this.isShow) {
+      setTimeout(() => {
+        this.renderer.setStyle(this.elmentRef.nativeElement, 'transition', '0.8s ease-out');
+        this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', `translateY(-${this.drawerHeight}px)`);
+        this.isShow = false;
+        this.state = 'goDown';
+      }, 33);
+    }
 
     console.log('drawerHeight', this.drawerHeight);
-
-    this.renderer.setStyle(this.elmentRef.nativeElement, 'top', this.drawerHeight + 'px');
-
-    this.renderer.setStyle(this.className, 'min-height', this.windowHeight + 'px');
-
     const options: GestureConfig = {
       el: this.elmentRef.nativeElement,
       direction: 'y',
