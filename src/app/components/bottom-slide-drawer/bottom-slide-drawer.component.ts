@@ -64,6 +64,7 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
           this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', `translateY(calc(${ev.deltaY}px - ${this.drawerHeight}px))`);
         }
 
+        // give the slider direction
         const refY = ev.deltaY;
         setTimeout(() => {
           if ( refY > ev.deltaY) {
