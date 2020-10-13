@@ -14,8 +14,9 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
 
   @Output() isCloseEvent = new EventEmitter<{ isClose: boolean}>();
 
-  handleHeight = 0.9;
-  state = 'bottom';
+  handleHeight = 0.84;
+  state = 'goUp';
+  isUp = false;
 
   windowHeight = window.innerHeight; // get the screen size
   drawerHeight: number;
@@ -55,23 +56,23 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
       },
       onMove: (ev) => {
         // if I go up apply style
-        if (ev.deltaY < 0 && this.state === 'bottom') {
+        if (ev.deltaY < 0 && this.state === 'goUp') {
           this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', `translateY(${ev.deltaY}px)`);
 
           // if I go down apply style
-        } else if (ev.deltaY > 0 && this.state === 'top') {
+        } else if (ev.deltaY > 0 && this.state === 'goDown') {
           this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', `translateY(calc(${ev.deltaY}px - ${this.drawerHeight}px))`);
         }
 
         const refY = ev.deltaY;
         setTimeout(() => {
           if ( refY > ev.deltaY) {
-            console.log('bottom');
-            this.state = 'bottom';
+            console.log('goUp');
+            this.state = 'goUp';
           }
           if ( refY < ev.deltaY) {
-            console.log('top');
-            this.state = 'top';
+            console.log('goDown');
+            this.state = 'goDown';
           }
         }, 33);
 
@@ -82,12 +83,13 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
         // do something when the gesture ends
         this.renderer.setStyle(this.elmentRef.nativeElement, 'transition', '0.5s ease-out');
 
-        if (ev.deltaY < -(this.windowHeight / 20) && this.state === 'bottom') {
+        if (ev.deltaY < -(this.windowHeight / 20) && this.state === 'goUp') {
           this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', `translateY(-${this.drawerHeight}px)`);
-          this.state = 'top';
+          this.state = 'goDown';
         } else {
           this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', 'translateY(0px)');
-          this.state = 'bottom';
+          this.state = 'goUp';
+          this.isUp = false;
         }
       }
 
@@ -98,8 +100,11 @@ export class BottomSlideDrawerComponent implements OnInit, AfterViewInit, OnDest
   }
 
   onClick() {
-    this.renderer.setStyle(this.elmentRef.nativeElement, 'transition', '0.5s ease-out');
-    this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', `translateY(-${this.drawerHeight}px)`);
+    if (!this.isUp) {
+      this.renderer.setStyle(this.elmentRef.nativeElement, 'transition', '0.5s ease-out');
+      this.renderer.setStyle(this.elmentRef.nativeElement, 'transform', `translateY(-${this.drawerHeight}px)`);
+      this.isUp = true;
+    }
   }
 
 
